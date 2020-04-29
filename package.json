@@ -1,7 +1,7 @@
 {
   "displayName": "Homebridge Camera Swann",
   "name": "homebridge-camera-swann",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Enables Homebridge access to Swann NVR cameras via RTSP.",
   "license": "ISC",
   "keywords": [
