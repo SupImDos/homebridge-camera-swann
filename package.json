@@ -1,18 +1,18 @@
 {
-  "displayName": "Homebridge Camera FFmpeg",
-  "name": "homebridge-camera-ffmpeg",
+  "displayName": "Homebridge Camera Swann",
+  "name": "homebridge-camera-swann",
   "version": "0.1.17",
-  "description": "ffmpeg plugin for homebridge: https://github.com/nfarina/homebridge",
+  "description": "Enables Homebridge access to Swann NVR cameras via RTSP.",
   "license": "ISC",
   "keywords": [
     "homebridge-plugin"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/KhaosT/homebridge-camera-ffmpeg.git"
+    "url": "git://github.com/SupImDos/homebridge-camera-swann.git"
   },
   "bugs": {
-    "url": "http://github.com/KhaosT/homebridge-camera-ffmpeg/issues"
+    "url": "http://github.com/SupImDos/homebridge-camera-swann/issues"
   },
   "engines": {
     "node": ">=5.0.0",
@@ -25,3 +25,4 @@
     "debug": "^2.2.0"
   }
 }
+
