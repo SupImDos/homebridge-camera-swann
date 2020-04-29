@@ -45,13 +45,13 @@
             "type": "object",
             "properties": {
               "mainStream": {
-                "title": "Source",
+                "title": "Main Stream Source",
                 "type": "string",
                 "placeholder": "-re -i rtsp://myfancy_rtsp_stream",
                 "required": true
               },
               "subStream": {
-                "title": "Source",
+                "title": "Sub Stream Source",
                 "type": "string",
                 "placeholder": "-re -i rtsp://myfancy_rtsp_stream",
                 "required": true
@@ -114,6 +114,10 @@
       "buttonText": "Add Camera",
       "items": [
         "cameras[].name",
+        "cameras[].manufacturer",
+        "cameras[].model",
+        "cameras[].serialNumber",
+        "cameras[].firmwareRevision",
         "cameras[].videoConfig.mainStream",
         "cameras[].videoConfig.subStream",
         "cameras[].videoConfig.audio",
@@ -125,6 +129,8 @@
           "expandable": true,
           "expanded": false,
           "items": [
+            "cameras[].videoConfig.maxStreams",
+            "cameras[].videoConfig.bitrateThreshold",
             "cameras[].videoConfig.videoPacketSize",
             "cameras[].videoConfig.audioPacketSize",
             "cameras[].videoConfig.mapvideo",
