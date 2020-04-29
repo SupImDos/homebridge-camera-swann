@@ -9,7 +9,7 @@ Enables Homebridge access to Swann NVR cameras via RTSP
 ## Installation
 
 - Basic Installation
-  - TODO
+  - sudo npm install -g --save https://github.com/SupImDos/homebridge-camera-swann/tarball/master
 
 ## Configuration
 
