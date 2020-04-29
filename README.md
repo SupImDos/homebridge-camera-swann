@@ -22,10 +22,15 @@ Enables Homebridge access to Swann NVR cameras via RTSP
     {
       "name": "Camera Name",
       "videoConfig": {
-        "mainStream": "-rtsp_transport tcp -i rtsp://[HOST]:[PORT]/CH0x/0",
-        "subStream": "-rtsp_transport tcp -i rtsp://[HOST]:[PORT]/CH0x/1",
+        "mainStream": "-rtsp_transport tcp -i rtsp://[USER]@[PASS]:[HOST]:[PORT]/ch0[x]/0",
+        "subStream": "-rtsp_transport tcp -i rtsp://[USER]@[PASS]:[HOST]:[PORT]/ch0[x]/1",
         "maxStreams": 1,
-        "audio": true
+        "videoPacketSize": 1378,
+        "audioPacketSize": 188,
+        "mapvideo": "0:v",
+        "mapaudio": "0:a",
+        "audio": true,
+        "debug": false
       }
     }
   ]
