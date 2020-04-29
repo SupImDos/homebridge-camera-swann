@@ -107,7 +107,7 @@ swannCameraPlatform.prototype.didFinishLaunching = function() {
     });
 
     // Publish Accessories
-    self.api.publishCameraAccessories("Camera-Swann", configuredAccessories);
+    self.api.publishCameraAccessories("homebridge-camera-swann", configuredAccessories);
   }
 };
 

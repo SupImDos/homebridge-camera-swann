@@ -11,7 +11,7 @@ This is a fork of the popular: [homebridge-camera-ffmpeg](https://github.com/Kha
 ## Installation
 
 - Basic Installation
-  - npm install -g homebridge-camera-swann
+  - `npm install -g homebridge-camera-swann`
 
 ## Configuration
 
