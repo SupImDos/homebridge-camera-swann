@@ -9,17 +9,19 @@ var spawn = require('child_process').spawn;
 
 // Declare Exports
 module.exports = {
-  FFMPEG: FFMPEG
+  SwannCamera: SwannCamera
 };
 
 // FFMPEG Function
-function FFMPEG(hap, cameraConfig, log, videoProcessor, interfaceName) {
+function SwannCamera(hap, cameraConfig, log, videoProcessor, interfaceName) {
+  // Logging
+  this.log = log;
+
   // Get Variables from HAP
   uuid = hap.uuid;
   Service = hap.Service;
   Characteristic = hap.Characteristic;
   StreamController = hap.StreamController;
-  this.log = log;
 
   // Get Configuration Options
   var ffmpegOpt = cameraConfig.videoConfig;
@@ -29,6 +31,7 @@ function FFMPEG(hap, cameraConfig, log, videoProcessor, interfaceName) {
   this.videoProcessor = videoProcessor || 'ffmpeg';
   this.interfaceName = interfaceName;
   this.audio = ffmpegOpt.audio;
+  this.bitrateThreshold = ffmpegOpt.bitrateThreshold || 299;
   this.videoPacketSize = ffmpegOpt.videoPacketSize
   this.audioPacketSize = ffmpegOpt.audioPacketSize
   this.debug = ffmpegOpt.debug;
@@ -54,6 +57,21 @@ function FFMPEG(hap, cameraConfig, log, videoProcessor, interfaceName) {
 
   // Number of Streams
   var numberOfStreams = ffmpegOpt.maxStreams || 1;
+
+  // Video Resolutions and FPS
+  var maxFPS = 25;
+  var videoResolutions = [];
+  
+  // Push Resolutions
+  videoResolutions.push([320, 240, maxFPS]);
+  videoResolutions.push([320, 180, maxFPS]);
+  videoResolutions.push([480, 360, maxFPS]);
+  videoResolutions.push([480, 270, maxFPS]);
+  videoResolutions.push([640, 480, maxFPS]);
+  videoResolutions.push([640, 360, maxFPS]);
+  videoResolutions.push([1280, 960, maxFPS]);
+  videoResolutions.push([1280, 720, maxFPS]);
+  videoResolutions.push([1920, 1080, maxFPS]);
 
   // Homekit Options
   let options = {
@@ -86,14 +104,14 @@ function FFMPEG(hap, cameraConfig, log, videoProcessor, interfaceName) {
 }
 
 // Handle Connnection Close
-FFMPEG.prototype.handleCloseConnection = function(connectionID) {
+SwannCamera.prototype.handleCloseConnection = function(connectionID) {
   this.streamControllers.forEach(function(controller) {
     controller.handleCloseConnection(connectionID);
   });
 }
 
 // Handle Snapshot Request
-FFMPEG.prototype.handleSnapshotRequest = function(request, callback) {
+SwannCamera.prototype.handleSnapshotRequest = function(request, callback) {
   // Get Request Data
   var width = request.width;
   var height = request.height;
@@ -128,7 +146,7 @@ FFMPEG.prototype.handleSnapshotRequest = function(request, callback) {
 }
 
 // Prepare Stream
-FFMPEG.prototype.prepareStream = function(request, callback) {
+SwannCamera.prototype.prepareStream = function(request, callback) {
   // Declare sessionInfo
   var sessionInfo = {};
 
@@ -228,7 +246,7 @@ FFMPEG.prototype.prepareStream = function(request, callback) {
 }
 
 // Handle Stream Request
-FFMPEG.prototype.handleStreamRequest = function(request) {
+SwannCamera.prototype.handleStreamRequest = function(request) {
   // Get Session ID and Request Type
   var sessionID = request["sessionID"];
   var requestType = request["type"];
@@ -257,7 +275,7 @@ FFMPEG.prototype.handleStreamRequest = function(request) {
         // Switch for MainStream and Substream
         let videoInfo = request["video"];
         if (videoInfo) {
-          if(videoInfo["max_bit_rate"] < 300) {
+          if(videoInfo["max_bit_rate"] < this.bitrateThreshold) {
             source = this.ffmpegSubStream;
           }
         }
@@ -272,7 +290,7 @@ FFMPEG.prototype.handleStreamRequest = function(request) {
         let audioSsrc = sessionInfo["audio_ssrc"];
 
         // ffmpeg Command
-        let fcmd = this.ffmpegSource;
+        let fcmd = source;
 
         // Video Args
         let ffmpegVideoArgs = ' -map ' + mapvideo +
@@ -328,7 +346,12 @@ FFMPEG.prototype.handleStreamRequest = function(request) {
 
         // Start the process
         let ffmpeg = spawn(this.videoProcessor, fcmd.split(' '), {env: process.env});
-        this.log("Start streaming video from " + this.name);
+        if(source == this.ffmpegMainStream){
+          this.log("Start streaming Main Stream from: " + this.name);
+        }
+        else{
+          this.log("Start streaming Sub Stream from: " + this.name);
+        }
         if(this.debug){
           console.log("ffmpeg " + fcmd);
         }
@@ -350,7 +373,7 @@ FFMPEG.prototype.handleStreamRequest = function(request) {
         });
 
         ffmpeg.on('close', (code) => {
-          if(code == null || code == 0 || code == 255){
+          if(code == null || code == 0 || code == 255){
             self.log("Stopped streaming");
           } else {
             self.log("ERROR: FFmpeg exited with code " + code);
@@ -381,7 +404,7 @@ FFMPEG.prototype.handleStreamRequest = function(request) {
 }
 
 // Create Camera Control Service
-FFMPEG.prototype.createCameraControlService = function() {
+SwannCamera.prototype.createCameraControlService = function() {
   var controlService = new Service.CameraControl();
 
   this.services.push(controlService);
@@ -392,13 +415,16 @@ FFMPEG.prototype.createCameraControlService = function() {
   }
 }
 
-// Private
-FFMPEG.prototype._createStreamControllers = function(maxStreams, options) {
+// Create Stream Controllers
+SwannCamera.prototype._createStreamControllers = function(maxStreams, options) {
+  // Declare Self
   let self = this;
 
+  // Create maxStreams number of Stream Controllers
   for (var i = 0; i < maxStreams; i++) {
     var streamController = new StreamController(i, options, self);
 
+    // Push Controllers
     self.services.push(streamController.service);
     self.streamControllers.push(streamController);
   }

@@ -2,7 +2,7 @@
 var Accessory, Service, Characteristic, hap, UUIDGen;
 
 // Declare Requirements
-var FFMPEG = require('./ffmpeg').FFMPEG;
+var SwannCamera = require('./ffmpeg').SwannCamera;
 
 // Declare Exports
 module.exports = function(homebridge) {
@@ -14,11 +14,11 @@ module.exports = function(homebridge) {
   UUIDGen = homebridge.hap.uuid;
 
   // Register Platform
-  homebridge.registerPlatform("homebridge-camera-swann", "Camera-swann", ffmpegPlatform, true);
+  homebridge.registerPlatform("homebridge-camera-swann", "Camera-Swann", swannCameraPlatform, true);
 }
 
-// FFMPEG Platform
-function ffmpegPlatform(log, config, api) {
+// Swann Camera Platform
+function swannCameraPlatform(log, config, api) {
   // Declare Self
   var self = this;
 
@@ -40,12 +40,12 @@ function ffmpegPlatform(log, config, api) {
 }
 
 // Configure Accessory
-ffmpegPlatform.prototype.configureAccessory = function(accessory) {
+swannCameraPlatform.prototype.configureAccessory = function(accessory) {
   // Won't be invoked
 }
 
 // Finish Launching
-ffmpegPlatform.prototype.didFinishLaunching = function() {
+swannCameraPlatform.prototype.didFinishLaunching = function() {
   // Declare Self, videoProcessor and interfaceName
   var self = this;
   var videoProcessor = self.config.videoProcessor || 'ffmpeg';
@@ -101,13 +101,13 @@ ffmpegPlatform.prototype.didFinishLaunching = function() {
       }
 
       // Register Camera Source
-      var cameraSource = new FFMPEG(hap, cameraConfig, self.log, videoProcessor, interfaceName);
+      var cameraSource = new SwannCamera(hap, cameraConfig, self.log, videoProcessor, interfaceName);
       cameraAccessory.configureCameraSource(cameraSource);
       configuredAccessories.push(cameraAccessory);
     });
 
     // Publish Accessories
-    self.api.publishCameraAccessories("Camera-swann", configuredAccessories);
+    self.api.publishCameraAccessories("Camera-Swann", configuredAccessories);
   }
 };
 
