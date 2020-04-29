@@ -6,10 +6,12 @@
 
 Enables Homebridge access to Swann NVR cameras via RTSP
 
+This is a fork of the popular: [homebridge-camera-ffmpeg](https://github.com/KhaosT/homebridge-camera-ffmpeg)
+
 ## Installation
 
 - Basic Installation
-  - sudo npm install -g --save https://github.com/SupImDos/homebridge-camera-swann/tarball/master
+  - npm install -g homebridge-camera-swann
 
 ## Configuration
 
