@@ -13,10 +13,6 @@
       "title": "Interface Name",
       "type": "string"
     },
-    "motion": {
-      "title": "Enable IOS 13 Motion Notifications",
-      "type": "boolean"
-    },
     "cameras": {
       "type": "array",
       "items": {
@@ -44,6 +40,10 @@
           "firmwareRevision": {
             "title": "Firmware Version",
             "type": "string"
+          },
+          "motion": {
+            "title": "Enable IOS 13 Motion Notifications",
+            "type": "boolean"
           },
           "videoConfig": {
             "title": "Video Configuration",
@@ -139,7 +139,8 @@
             "cameras[].videoConfig.videoPacketSize",
             "cameras[].videoConfig.audioPacketSize",
             "cameras[].videoConfig.mapvideo",
-            "cameras[].videoConfig.mapaudio"
+            "cameras[].videoConfig.mapaudio",
+            "cameras[].motion"
           ]
         }
       ]
