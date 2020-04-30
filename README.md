@@ -19,23 +19,31 @@ This is a fork of the popular: [homebridge-camera-ffmpeg](https://github.com/Kha
 
 ```json
 {
-  "platform": "Camera-Swann",
-  "cameras": [
-    {
-      "name": "Camera Name",
-      "videoConfig": {
-        "mainStream": "-rtsp_transport tcp -i rtsp://[USER]@[PASS]:[HOST]:[PORT]/ch0[x]/0",
-        "subStream": "-rtsp_transport tcp -i rtsp://[USER]@[PASS]:[HOST]:[PORT]/ch0[x]/1",
-        "maxStreams": 1,
-        "bitrateThreshold": 299,
-        "videoPacketSize": 1378,
-        "audioPacketSize": 188,
-        "mapvideo": "0:v",
-        "mapaudio": "0:a",
-        "audio": true,
-        "debug": false
-      }
-    }
-  ]
+    "platform": "Camera-Swann",
+    "cameras": [
+        {
+            "name": "Camera Name",
+            "manufacturer": "Camera Brand",
+            "model": "Camera Model",
+            "serialNumber": "Camera Serial",
+            "firmwareRevision": "Camera Firmware Version",
+            "videoConfig": {
+                "mainStream": "-rtsp_transport tcp -i rtsp://[USER]:[PASS]@[HOST]:[PORT]/ch0[X]/0",
+                "subStream": "-rtsp_transport tcp -i rtsp://[USER]:[PASS]@[HOST]:[PORT]/ch0[X]/1",
+                "maxStreams": 1,
+                "bitrateThreshold": 299,
+                "videoPacketSize": 1378,
+                "audioPacketSize": 188,
+                "mapvideo": "0:v",
+                "mapaudio": "0:a",
+                "audio": true,
+                "debug": false
+            }
+        }
+    ]
 }
 ```
+
+#### Swann NVR/DVR Configuration Example
+
+TODO

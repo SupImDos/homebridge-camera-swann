@@ -2,7 +2,7 @@
 var Accessory, Service, Characteristic, hap, UUIDGen;
 
 // Declare Requirements
-var SwannCamera = require('./ffmpeg').SwannCamera;
+var SwannCamera = require("./ffmpeg").SwannCamera;
 
 // Declare Exports
 module.exports = function(homebridge) {
@@ -35,7 +35,7 @@ function swannCameraPlatform(log, config, api) {
     }
 
     // Finish Launching
-    self.api.on('didFinishLaunching', self.didFinishLaunching.bind(this));
+    self.api.on("didFinishLaunching", self.didFinishLaunching.bind(this));
   }
 }
 
@@ -48,8 +48,8 @@ swannCameraPlatform.prototype.configureAccessory = function(accessory) {
 swannCameraPlatform.prototype.didFinishLaunching = function() {
   // Declare Self, videoProcessor and interfaceName
   var self = this;
-  var videoProcessor = self.config.videoProcessor || 'ffmpeg';
-  var interfaceName = self.config.interfaceName || '';
+  var videoProcessor = self.config.videoProcessor || "ffmpeg";
+  var interfaceName = self.config.interfaceName || "";
 
   // Camera Configuration
   if (self.config.cameras) {
@@ -97,7 +97,7 @@ swannCameraPlatform.prototype.didFinishLaunching = function() {
         cameraAccessory.addService(motion);
 
         button.getCharacteristic(Characteristic.On)
-          .on('set', _Motion.bind(cameraAccessory));
+          .on("set", _Motion.bind(cameraAccessory));
       }
 
       // Register Camera Source

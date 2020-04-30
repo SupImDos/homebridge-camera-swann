@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 // Declare Variables
 var uuid, Service, Characteristic, StreamController;
 
 // Declare Requirements
-var crypto = require('crypto');
-var ip = require('ip');
-var spawn = require('child_process').spawn;
+var crypto = require("crypto");
+var ip = require("ip");
+var spawn = require("child_process").spawn;
 
 // Declare Exports
 module.exports = {
@@ -28,7 +28,7 @@ function SwannCamera(hap, cameraConfig, log, videoProcessor, interfaceName) {
 
   // Parse Configuration Options
   this.name = cameraConfig.name;
-  this.videoProcessor = videoProcessor || 'ffmpeg';
+  this.videoProcessor = videoProcessor || "ffmpeg";
   this.interfaceName = interfaceName;
   this.audio = ffmpegOpt.audio;
   this.bitrateThreshold = ffmpegOpt.bitrateThreshold || 299;
@@ -63,8 +63,8 @@ function SwannCamera(hap, cameraConfig, log, videoProcessor, interfaceName) {
   var videoResolutions = [];
   
   // Push Resolutions
-  videoResolutions.push([320, 240, maxFPS]);
-  videoResolutions.push([320, 180, maxFPS]);
+  videoResolutions.push([320, 240, 15]); // Limited to 15?
+  videoResolutions.push([320, 180, 15]); // Limited to 15?
   videoResolutions.push([480, 360, maxFPS]);
   videoResolutions.push([480, 270, maxFPS]);
   videoResolutions.push([640, 480, maxFPS]);
@@ -115,32 +115,34 @@ SwannCamera.prototype.handleSnapshotRequest = function(request, callback) {
   // Get Request Data
   var width = request.width;
   var height = request.height;
-  var resolution = width + ':' + height;
+  var resolution = width + ":" + height;
 
   // Grab Image
-  let ffmpeg = spawn(this.videoProcessor, (this.ffmpegMainStream + ' -t 1 -vf scale=' + resolution + ' -f image2 -').split(' '), {env: process.env});
+  let ffmpeg = spawn(this.videoProcessor, (this.ffmpegMainStream + " -t 1 -vf scale=" + resolution + " -f image2 -").split(" "), {env: process.env});
   var imageBuffer = Buffer.alloc(0);
 
   // Log Info
   this.log("Snapshot from: " + this.name + " @ " + resolution);
 
   // Log Debug Info
-  if(this.debug) console.log('ffmpeg '+ this.ffmpegMainStream + ' -t 1 -vf scale='+ resolution + ' -f image2 -');
+  if (this.debug) {
+    console.log("ffmpeg "+ this.ffmpegMainStream + " -t 1 -vf scale=" + resolution + " -f image2 -");
+  }
 
   // Grab Image
-  ffmpeg.stdout.on('data', function(data) {
+  ffmpeg.stdout.on("data", function(data) {
     imageBuffer = Buffer.concat([imageBuffer, data]);
   });
 
   // Callbacks
   let self = this;
 
-  ffmpeg.on('error', function(error){
+  ffmpeg.on("error", function(error) {
     self.log("An error occurs while making snapshot request");
     self.debug ? self.log(error) : null;
   });
 
-  ffmpeg.on('close', function(code) {
+  ffmpeg.on("close", function(code) {
     callback(undefined, imageBuffer);
   }.bind(this));
 }
@@ -231,7 +233,8 @@ SwannCamera.prototype.prepareStream = function(request, callback) {
   // Record IP Type in Response
   if (ip.isV4Format(currentAddress)) {
     addressResp["type"] = "v4";
-  } else {
+  }
+  else {
     addressResp["type"] = "v6";
   }
 
@@ -265,8 +268,8 @@ SwannCamera.prototype.handleStreamRequest = function(request) {
         var source = this.ffmpegMainStream;
         var abitrate = 24;
         var asamplerate = 16;
-        var vcodec = 'copy';
-        var acodec = 'libfdk_aac';
+        var vcodec = "copy";
+        var acodec = "libfdk_aac";
         var videoPacketSize = this.videoPacketSize || 1378;
         var audioPacketSize = this.audioPacketSize || 188;
         var mapvideo = this.mapvideo;
@@ -276,7 +279,7 @@ SwannCamera.prototype.handleStreamRequest = function(request) {
         let videoInfo = request["video"];
         if (videoInfo) {
           if(videoInfo["max_bit_rate"] < this.bitrateThreshold) {
-            source = this.ffmpegSubStream;
+            var source = this.ffmpegSubStream;
           }
         }
 
@@ -293,21 +296,23 @@ SwannCamera.prototype.handleStreamRequest = function(request) {
         let fcmd = source;
 
         // Video Args
-        let ffmpegVideoArgs = ' -map ' + mapvideo +
-          ' -vcodec ' + vcodec +
-          ' -an' +
-          ' -f rawvideo' +
-          ' -payload_type 99';
+        let ffmpegVideoArgs =
+          " -map " + mapvideo +
+          " -vcodec " + vcodec +
+          " -an" +
+          " -f rawvideo" +
+          " -payload_type 99";
 
           // Video Stream Args
-        let ffmpegVideoStream = ' -ssrc ' + videoSsrc +
-          ' -f rtp' +
-          ' -srtp_out_suite AES_CM_128_HMAC_SHA1_80' +
-          ' -srtp_out_params ' + videoKey.toString('base64') +
-          ' srtp://' + targetAddress + ':' + targetVideoPort +
-          '?rtcpport=' + targetVideoPort +
-          '&localrtcpport=' + targetVideoPort +
-          '&pkt_size=' + videoPacketSize;
+        let ffmpegVideoStream =
+          " -ssrc " + videoSsrc +
+          " -f rtp" +
+          " -srtp_out_suite AES_CM_128_HMAC_SHA1_80" +
+          " -srtp_out_params " + videoKey.toString("base64") +
+          " srtp://" + targetAddress + ":" + targetVideoPort +
+          "?rtcpport=" + targetVideoPort +
+          "&localrtcpport=" + targetVideoPort +
+          "&pkt_size=" + videoPacketSize;
 
         // Build Command
         fcmd += ffmpegVideoArgs;
@@ -316,70 +321,82 @@ SwannCamera.prototype.handleStreamRequest = function(request) {
         // Options Audio Args
         if(this.audio) {
           // Audio Args
-          let ffmpegAudioArgs = ' -map ' + mapaudio +
-              ' -acodec ' + acodec +
-              ' -profile:a aac_eld' +
-              ' -flags +global_header' +
-              ' -ar ' + asamplerate + 'k' +
-              ' -b:a ' + abitrate + 'k' +
-              ' -payload_type 110';
+          let ffmpegAudioArgs =
+              " -map " + mapaudio +
+              " -acodec " + acodec +
+              " -vn" +
+              " -profile:a aac_eld" +
+              " -flags +global_header" +
+              " -ar " + asamplerate + "k" +
+              " -b:a " + abitrate + "k" +
+              " -payload_type 110";
 
           // Audio Stream Args
-          let ffmpegAudioStream = ' -ssrc ' + audioSsrc +
-              ' -f rtp' +
-              ' -srtp_out_suite AES_CM_128_HMAC_SHA1_80' +
-              ' -srtp_out_params ' + audioKey.toString('base64') +
-              ' srtp://' + targetAddress + ':' + targetAudioPort +
-              '?rtcpport=' + targetAudioPort +
-              '&localrtcpport=' + targetAudioPort +
-              '&pkt_size=' + audioPacketSize;
+          let ffmpegAudioStream =
+              " -ssrc " + audioSsrc +
+              " -f rtp" +
+              " -srtp_out_suite AES_CM_128_HMAC_SHA1_80" +
+              " -srtp_out_params " + audioKey.toString("base64") +
+              " srtp://" + targetAddress + ":" + targetAudioPort +
+              "?rtcpport=" + targetAudioPort +
+              "&localrtcpport=" + targetAudioPort +
+              "&pkt_size=" + audioPacketSize;
 
           // Build Command
           fcmd += ffmpegAudioArgs;
           fcmd += ffmpegAudioStream;
         }
 
-        // Debug Logging Switch
+        // Debug Logging
         if (this.debug) {
-          fcmd += ' -loglevel debug';
+          fcmd += " -loglevel debug";
         }
 
         // Start the process
-        let ffmpeg = spawn(this.videoProcessor, fcmd.split(' '), {env: process.env});
+        let ffmpeg = spawn(this.videoProcessor, fcmd.split(" "), {env: process.env});
+
+        // Log
+        let homekitRequest = "Homekit did not request a bitrate. ";
+        if (videoInfo) {
+          homekitRequest = "Homekit requested: " + videoInfo["max_bit_rate"] + "Kbps. ";
+        }
+        let whichStream = "Starting sub stream from: " + this.name;
         if(source == this.ffmpegMainStream){
-          this.log("Start streaming Main Stream from: " + this.name);
+          whichStream = "Starting main stream from: " + this.name;
         }
-        else{
-          this.log("Start streaming Sub Stream from: " + this.name);
-        }
+        this.log(homekitRequest + whichStream);
+
+        // Log Debug
         if(this.debug){
           console.log("ffmpeg " + fcmd);
         }
 
-        // Always setup hook on stderr.
-        // Without this streaming stops within one to two minutes.
-        ffmpeg.stderr.on('data', function(data) {
+        // Log data to console if debug
+        ffmpeg.stderr.on("data", function(data) {
           // Do not log to the console if debugging is turned off
           if(this.debug){
             console.log(data.toString());
           }
         }.bind(this));
 
-        // Callbacks
+        // Always setup hook on stderr.
+        // Without this streaming stops within one to two minutes.
         let self = this;
-        ffmpeg.on('error', function(error){
-            self.log("An error occurs while making stream request");
+        ffmpeg.on("error", function(error){
+            self.log("An error occured while making stream request");
             self.debug ? self.log(error) : null;
         });
 
-        ffmpeg.on('close', (code) => {
-          if(code == null || code == 0 || code == 255){
+        // On Close
+        ffmpeg.on("close", (code) => {
+          if (code == null || code == 0 || code == 255) {
             self.log("Stopped streaming");
-          } else {
+          }
+          else {
             self.log("ERROR: FFmpeg exited with code " + code);
-            for(var i=0; i < self.streamControllers.length; i++){
+            for (var i=0; i < self.streamControllers.length; i++) {
               var controller = self.streamControllers[i];
-              if(controller.sessionIdentifier === sessionID){
+              if (controller.sessionIdentifier === sessionID) {
                 controller.forceStop();
               }
             }
@@ -391,11 +408,12 @@ SwannCamera.prototype.handleStreamRequest = function(request) {
       // Remove from Pending Sessions
       delete this.pendingSessions[sessionIdentifier];
 
+    }
     // Stop Request
-    } else if (requestType == "stop") {
+    else if (requestType == "stop") {
       var ffmpegProcess = this.ongoingSessions[sessionIdentifier];
       if (ffmpegProcess) {
-        ffmpegProcess.kill('SIGTERM');
+        ffmpegProcess.kill("SIGTERM");
       }
       // Remove from Ongoing Sessions
       delete this.ongoingSessions[sessionIdentifier];
@@ -405,11 +423,12 @@ SwannCamera.prototype.handleStreamRequest = function(request) {
 
 // Create Camera Control Service
 SwannCamera.prototype.createCameraControlService = function() {
+  // Camera Control Service
   var controlService = new Service.CameraControl();
-
   this.services.push(controlService);
 
-  if(this.audio){
+  // Microphone Service
+  if (this.audio) {
     var microphoneService = new Service.Microphone();
     this.services.push(microphoneService);
   }
