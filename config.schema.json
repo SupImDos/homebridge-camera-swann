@@ -16,17 +16,9 @@
       "title": "Interface Name",
       "type": "string"
     },
-    "manufacturer": {
-      "type": "string"
-    },
-    "model": {
-      "type": "string"
-    },
-    "serialNumber": {
-      "type": "string"
-    },
-    "firmwareRevision": {
-      "type": "string"
+    "motion": {
+      "title": "Enable IOS 13 Motion Notifications",
+      "type": "boolean"
     },
     "cameras": {
       "type": "array",
@@ -39,6 +31,22 @@
             "type": "string",
             "placeholder": "Enter camera name...",
             "required": true
+          },
+          "manufacturer": {
+            "title": "Manufacturer",
+            "type": "string"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "serialNumber": {
+            "title": "Serial Number",
+            "type": "string"
+          },
+          "firmwareRevision": {
+            "title": "Firmware Version",
+            "type": "string"
           },
           "videoConfig": {
             "title": "Video Configuration",
