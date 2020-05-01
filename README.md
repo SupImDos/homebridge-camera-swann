@@ -25,7 +25,7 @@ This is a fork of the popular: [homebridge-camera-ffmpeg](https://github.com/Kha
   - Add extra camera accessories in Home app. The setup code is the same as homebridge.
 
 - Advanced Installation
-  - Warning: This will install the latest cutting edge develeopment version (may not work!).
+  - Warning: This will install the latest cutting edge development version (may not work!).
   - Install: `npm install -g --save https://github.com/SupImDos/homebridge-camera-swann/tarball/master`
   - Edit `config.json` and add the camera.
   - Run Homebridge
@@ -74,6 +74,23 @@ Sub Stream
   <img src="https://user-images.githubusercontent.com/62866982/80780501-bf145e00-8ba1-11ea-9974-f49867df7f6b.png">
 </p>
 
-## Explanation
+## Why use this plugin?
 
-TODO
+#### Copy instead of Transcode
+
+The main advantage of this plugin is that it uses `ffmpeg` to copy the H.264 stream, without the need to transcode it.
+
+#### Bitrate Threshold
+
+The second advantage of this plugin is the ability to set a `bitrateThreshold`. This bitrate threshold allows the plugin to select the `mainStream` or `subStream` based on the video bitrate requested by HomeKit.
+
+For example (`bitrateThreshold=299`):
+  1. Scenario 1
+    - iPhone is on local network, requests a stream with video bitrate of `299kbps`
+    - Requested bitrate is `>= bitrateThreshold`
+    - `Camera-Swann` selects Main Stream to restream over SRTP
+
+  2. Scenario 2
+    - iPhone is on 4G, requests a stream with video bitrate of `134kbps`
+    - Requested bitrate is `< bitrateThreshold`
+    - `Camera-Swann` selects Sub Stream to restream over SRTP
