@@ -4,6 +4,10 @@
 
 # Homebridge Camera Swann
 
+[![npm](https://badgen.net/npm/v/homebridge-camera-swann)](https://www.npmjs.com/package/homebridge-camera-swann)
+[![npm](https://badgen.net/npm/dt/homebridge-camera-swann)](https://www.npmjs.com/package/homebridge-camera-swann)
+[![isc license](https://badgen.net/badge/license/ISC/red)](https://github.com/SupImDos/homebridge-camera-swann/blob/master/LICENSE)
+
 Enables Homebridge access to Swann NVR cameras via RTSP
 
 This is a fork of the popular: [homebridge-camera-ffmpeg](https://github.com/KhaosT/homebridge-camera-ffmpeg)
