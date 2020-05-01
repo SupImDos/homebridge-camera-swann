@@ -4,8 +4,8 @@
 
 # Homebridge Camera Swann
 
-[![npm](https://badgen.net/npm/v/homebridge-camera-swann)](https://www.npmjs.com/package/homebridge-camera-swann)
-[![npm](https://badgen.net/npm/dt/homebridge-camera-swann)](https://www.npmjs.com/package/homebridge-camera-swann)
+[![npm](https://badgen.net/npm/v/homebridge-camera-swann?cache=300)](https://www.npmjs.com/package/homebridge-camera-swann)
+[![npm](https://badgen.net/npm/dt/homebridge-camera-swann?cache=300)](https://www.npmjs.com/package/homebridge-camera-swann)
 [![isc license](https://badgen.net/badge/license/ISC/red)](https://github.com/SupImDos/homebridge-camera-swann/blob/master/LICENSE)
 
 Enables Homebridge access to Swann NVR cameras via RTSP
