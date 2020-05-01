@@ -84,13 +84,16 @@ The main advantage of this plugin is that it uses `ffmpeg` to copy the H.264 str
 
 The second advantage of this plugin is the ability to set a `bitrateThreshold`. This bitrate threshold allows the plugin to select the `mainStream` or `subStream` based on the video bitrate requested by HomeKit.
 
-For example (`bitrateThreshold=299`):
-    1. Scenario 1
+Examples:
+
+    1. Scenario 1 (At home)
+        - `bitrateThreshold=299`
         - iPhone is on local network, requests a stream with video bitrate of `299kbps`
         - Requested bitrate is `>= bitrateThreshold`
         - `Camera-Swann` selects Main Stream to restream over SRTP
 
-    2. Scenario 2
+    2. Scenario 2 (Away from home)
+        - `bitrateThreshold=299`
         - iPhone is on 4G, requests a stream with video bitrate of `134kbps`
         - Requested bitrate is `< bitrateThreshold`
         - `Camera-Swann` selects Sub Stream to restream over SRTP
