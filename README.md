@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/homebridge/homebridge"><img alt="Homebridge Plugin" src="https://github.com/homebridge/branding/blob/master/logos/homebridge-color-round.svg?sanitize=true" width="140px"></a>
+  <a href="https://github.com/homebridge/homebridge"><img src="https://raw.githubusercontent.com/homebridge/branding/master/logos/homebridge-color-round-stylized.png" height="140"></a>
 </p>
 
 # Homebridge Camera Swann
