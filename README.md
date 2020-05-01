@@ -14,8 +14,22 @@ This is a fork of the popular: [homebridge-camera-ffmpeg](https://github.com/Kha
 
 ## Installation
 
+- Install via Homebridge Web UI 
+  - Search for `Camera Swann` on the plugin screen of [config-ui-x](https://github.com/oznu/homebridge-config-ui-x) .
+  - Click install.
+
 - Basic Installation
-  - `npm install -g homebridge-camera-swann`
+  - Install this plugin using: `npm install -g homebridge-camera-swann`
+  - Edit `config.json` and add the camera.
+  - Run Homebridge
+  - Add extra camera accessories in Home app. The setup code is the same as homebridge.
+
+- Advanced Installation
+  - Warning: This will install the latest cutting edge develeopment version (may not work!).
+  - Install: `npm install -g --save https://github.com/SupImDos/homebridge-camera-swann/tarball/master`
+  - Edit `config.json` and add the camera.
+  - Run Homebridge
+  - Add extra camera accessories in Home app. The setup code is the same as homebridge.
 
 ## Configuration
 
@@ -49,5 +63,17 @@ This is a fork of the popular: [homebridge-camera-ffmpeg](https://github.com/Kha
 ```
 
 #### Swann NVR/DVR Configuration Example
+
+Main Stream
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/62866982/80780499-bcb20400-8ba1-11ea-8097-ab7dfb5d2873.png">
+</p>
+
+Sub Stream
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/62866982/80780501-bf145e00-8ba1-11ea-9974-f49867df7f6b.png">
+</p>
+
+## Explanation
 
 TODO
