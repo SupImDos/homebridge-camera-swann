@@ -94,6 +94,6 @@ Examples:
 
 2. Scenario 2 (Away from home)
     * `bitrateThreshold=299`
-    * iPhone is on 4G, requests a stream with video bitrate of `134kbps`
+    * iPhone is on 4G, requests a stream with video bitrate of `132kbps`
     * Requested bitrate is `< bitrateThreshold`
     * `Camera-Swann` selects Sub Stream to restream over SRTP
