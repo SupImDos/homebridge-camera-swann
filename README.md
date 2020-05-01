@@ -15,21 +15,21 @@ This is a fork of the popular: [homebridge-camera-ffmpeg](https://github.com/Kha
 ## Installation
 
 - Install via Homebridge Web UI 
-  - Search for `Camera Swann` on the plugin screen of [config-ui-x](https://github.com/oznu/homebridge-config-ui-x) .
-  - Click install.
+    - Search for `Camera Swann` on the plugin screen of [config-ui-x](https://github.com/oznu/homebridge-config-ui-x) .
+    - Click install.
 
 - Basic Installation
-  - Install this plugin using: `npm install -g homebridge-camera-swann`
-  - Edit `config.json` and add the camera.
-  - Run Homebridge
-  - Add extra camera accessories in Home app. The setup code is the same as homebridge.
+    - Install this plugin using: `npm install -g homebridge-camera-swann`
+    - Edit `config.json` and add the camera.
+    - Run Homebridge
+    - Add extra camera accessories in Home app. The setup code is the same as homebridge.
 
 - Advanced Installation
-  - Warning: This will install the latest cutting edge development version (may not work!).
-  - Install: `npm install -g --save https://github.com/SupImDos/homebridge-camera-swann/tarball/master`
-  - Edit `config.json` and add the camera.
-  - Run Homebridge
-  - Add extra camera accessories in Home app. The setup code is the same as homebridge.
+    - Warning: This will install the latest cutting edge development version (may not work!).
+    - Install: `npm install -g --save https://github.com/SupImDos/homebridge-camera-swann/tarball/master`
+    - Edit `config.json` and add the camera.
+    - Run Homebridge
+    - Add extra camera accessories in Home app. The setup code is the same as homebridge.
 
 ## Configuration
 
@@ -85,12 +85,12 @@ The main advantage of this plugin is that it uses `ffmpeg` to copy the H.264 str
 The second advantage of this plugin is the ability to set a `bitrateThreshold`. This bitrate threshold allows the plugin to select the `mainStream` or `subStream` based on the video bitrate requested by HomeKit.
 
 For example (`bitrateThreshold=299`):
-  1. Scenario 1
-    - iPhone is on local network, requests a stream with video bitrate of `299kbps`
-    - Requested bitrate is `>= bitrateThreshold`
-    - `Camera-Swann` selects Main Stream to restream over SRTP
+    1. Scenario 1
+        - iPhone is on local network, requests a stream with video bitrate of `299kbps`
+        - Requested bitrate is `>= bitrateThreshold`
+        - `Camera-Swann` selects Main Stream to restream over SRTP
 
-  2. Scenario 2
-    - iPhone is on 4G, requests a stream with video bitrate of `134kbps`
-    - Requested bitrate is `< bitrateThreshold`
-    - `Camera-Swann` selects Sub Stream to restream over SRTP
+    2. Scenario 2
+        - iPhone is on 4G, requests a stream with video bitrate of `134kbps`
+        - Requested bitrate is `< bitrateThreshold`
+        - `Camera-Swann` selects Sub Stream to restream over SRTP
