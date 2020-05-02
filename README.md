@@ -1,3 +1,5 @@
+<span align="center">
+
 <p align="center">
   <a href="https://github.com/homebridge/homebridge"><img src="https://raw.githubusercontent.com/homebridge/branding/master/logos/homebridge-color-round-stylized.png" height="140"></a>
 </p>
@@ -7,6 +9,8 @@
 [![npm](https://badgen.net/npm/v/homebridge-camera-swann?cache=300)](https://www.npmjs.com/package/homebridge-camera-swann)
 [![npm](https://badgen.net/npm/dt/homebridge-camera-swann?cache=300)](https://www.npmjs.com/package/homebridge-camera-swann)
 [![isc license](https://badgen.net/badge/license/ISC/red)](https://github.com/SupImDos/homebridge-camera-swann/blob/master/LICENSE)
+
+</span>
 
 Enables Homebridge access to Swann NVR cameras via RTSP
 
